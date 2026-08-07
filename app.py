@@ -2,9 +2,51 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+cupcakes = [
+    {
+        "id": 1,
+        "nome": "Chocolate",
+        "descricao": "Cupcake de chocolate com cobertura cremosa.",
+        "preco": "R$ 8,00",
+        "imagem": "images/chocolate.png"
+    },
+    {
+        "id": 2,
+        "nome": "Morango",
+        "descricao": "Cupcake delicado com sabor de morango.",
+        "preco": "R$ 8,00",
+        "imagem": "images/morango.png"
+    },
+    {
+        "id": 3,
+        "nome": "Baunilha",
+        "descricao": "Cupcake clássico com massa leve de baunilha.",
+        "preco": "R$ 7,00",
+        "imagem": "images/baunilha.png"
+    },
+    {
+    "id": 4,
+    "nome": "Red Velvet",
+    "descricao": "Cupcake red velvet com cobertura de cream cheese.",
+    "preco": "R$ 11,00",
+    "imagem": "images/redvelvet.png"
+    },
+    {
+    "id": 5,
+        "nome": "Chocolate Belga",
+        "descricao": "Cupcake premium com chocolate belga e cobertura especial.",
+        "preco": "R$ 12,00",
+        "imagem": "images/chocolatebelga.png"
+    },
+]
+
 @app.route("/")
 def inicio():
-    return render_template("index.html")
+
+    return render_template(
+        "index.html",
+        cupcakes=cupcakes
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

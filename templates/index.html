@@ -34,39 +34,33 @@
         </section>
 
         <section class="destaques">
-            <h2>Nossos cupcakes</h2>
+    <h2>Nossos cupcakes</h2>
 
-            <div class="produtos">
+    <div class="produtos">
 
-                <article class="produto">
-                    <img src="{{ url_for('static', filename='images/chocolate.png') }}" alt="Cupcake de Chocolate">
+        {% for cupcake in cupcakes %}
 
-                    <h3>Chocolate</h3>
-                    <p>Cupcake de chocolate com cobertura cremosa.</p>
-                    <span class="preco">R$ 8,00</span>
-                    <a href="#" class="botao-produto">Adicionar ao pedido</a>
-                </article>
+        <article class="produto">
 
-                <article class="produto">
-                    <img src="{{ url_for('static', filename='images/morango.png') }}" alt="Cupcake de Morango">
+            <img src="{{ url_for('static', filename=cupcake.imagem) }}"
+                 alt="{{ cupcake.nome }}">
 
-                    <h3>Morango</h3>
-                    <p>Cupcake delicado com sabor de morango.</p>
-                    <span class="preco">R$ 8,00</span>
-                    <a href="#" class="botao-produto">Adicionar ao pedido</a>
-                </article>
+            <h3>{{ cupcake.nome }}</h3>
 
-                <article class="produto">
-                    <img src="{{ url_for('static', filename='images/baunilha.png') }}" alt="Cupcake de Baunilha">
-                    
-                    <h3>Baunilha</h3>
-                    <p>Cupcake clássico com massa leve de baunilha.</p>
-                    <span class="preco">R$ 7,00</span>
-                    <a href="#" class="botao-produto">Adicionar ao pedido</a>
-                </article>
+            <p>{{ cupcake.descricao }}</p>
 
-            </div>
-        </section>
+            <span class="preco">{{ cupcake.preco }}</span>
+
+            <a href="#" class="botao-produto">
+                Adicionar ao pedido
+            </a>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+</section>
 
     </main>
 
