@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ cupcake.nome }} - Casa dos Cupcakes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <main class="detalhe-produto">
+
+        <img src="{{ url_for('static', filename=cupcake.imagem) }}"
+             alt="{{ cupcake.nome }}">
+
+        <div class="detalhe-info">
+
+            <h1>{{ cupcake.nome }}</h1>
+
+            <p>{{ cupcake.descricao }}</p>
+
+            <span class="preco">{{ cupcake.preco }}</span>
+
+            <a href="{{ url_for('adicionar', id=cupcake.id) }}" class="botao">
+                Adicionar ao pedido
+            </a>
+
+            <a href="{{ url_for('inicio') }}" class="botao">
+                Voltar para a loja
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

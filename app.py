@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, abort, session, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = "casa-dos-cupcakes-chave-desenvolvimento"
 
 cupcakes = [
     {
@@ -46,6 +47,49 @@ def inicio():
     return render_template(
         "index.html",
         cupcakes=cupcakes
+    )
+
+@app.route("/adicionar/<int:id>")
+def adicionar(id):
+
+    carrinho = session.get("carrinho", [])
+
+    carrinho.append(id)
+
+    session["carrinho"] = carrinho
+
+    return redirect(url_for("detalhes", id=id))
+
+@app.route("/cupcake/<int:id>")
+def detalhes(id):
+
+    cupcake = next(
+        (c for c in cupcakes if c["id"] == id),
+        None
+    )
+
+    if cupcake is None:
+        abort(404)
+
+    return render_template(
+        "cupcake.html",
+        cupcake=cupcake
+    )
+
+@app.route("/pedidos")
+def pedidos():
+
+    ids_carrinho = session.get("carrinho", [])
+
+    itens = [
+        cupcake
+        for cupcake in cupcakes
+        if cupcake["id"] in ids_carrinho
+    ]
+
+    return render_template(
+        "pedidos.html",
+        itens=itens
     )
 
 if __name__ == "__main__":

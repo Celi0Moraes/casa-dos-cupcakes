@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Meus Pedidos</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <main class="detalhe-produto">
+
+        <div class="detalhe-info">
+
+            <h1>Meu Pedido</h1>
+
+            {% if itens %}
+
+                {% for item in itens %}
+
+                    <p>
+                        {{ item.nome }} -
+                        <strong>{{ item.preco }}</strong>
+                    </p>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>Seu carrinho está vazio.</p>
+
+            {% endif %}
+
+            <br>
+
+            <a href="{{ url_for('inicio') }}" class="botao">
+                Continuar comprando
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

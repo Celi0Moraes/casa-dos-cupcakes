@@ -13,9 +13,9 @@
         <h1>Casa dos Cupcakes 🍰</h1>
 
         <nav>
-            <a href="#">Início</a>
-            <a href="#">Cupcakes</a>
-            <a href="#">Pedidos</a>
+            <a href="/">Início</a>
+            <a href="#cupcakes">Cupcakes</a>
+            <a href="{{ url_for('pedidos') }}">Pedidos</a>
             <a href="#">Contato</a>
         </nav>
     </header>
@@ -30,10 +30,10 @@
                 seu dia ainda mais especial.
             </p>
 
-            <a href="#" class="botao">Ver cupcakes</a>
+            <a href="#cupcakes" class="botao">Ver cupcakes</a>
         </section>
 
-        <section class="destaques">
+        <section class="destaques" id="cupcakes">
     <h2>Nossos cupcakes</h2>
 
     <div class="produtos">
@@ -51,8 +51,8 @@
 
             <span class="preco">{{ cupcake.preco }}</span>
 
-            <a href="#" class="botao-produto">
-                Adicionar ao pedido
+            <a href="{{ url_for('detalhes', id=cupcake.id) }}" class="botao-produto">
+                Ver detalhes
             </a>
 
         </article>
