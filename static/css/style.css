@@ -168,3 +168,82 @@ hr {
     border-top: 1px solid #eee;
     margin: 30px 0;
 }
+
+.detalhe-produto .imagem-carrinho {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.item-carrinho {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.item-carrinho p {
+    margin: 0;
+}
+
+.item-carrinho + hr {
+    margin: 20px 0;
+}
+
+/* Página de cadastro */
+
+.pagina-formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.formulario-card {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.formulario-card h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.formulario-card p {
+    margin-bottom: 25px;
+}
+
+.formulario-card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-card label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.formulario-card input {
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.formulario-card input:focus {
+    outline: none;
+    border-color: #d63384;
+}
+
+.formulario-card .botao {
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 5px;
+}

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Meus Pedidos</title>
+    <title>Meu Carrinho</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -11,36 +11,62 @@
 
 <body>
 
+    <header>
+    <h1>Casa dos Cupcakes 🍰</h1>
+
+    <nav>
+        <a href="{{ url_for('inicio') }}">Início</a>
+        <a href="{{ url_for('inicio') }}#cupcakes">Cupcakes</a>
+        <a href="{{ url_for('pedidos') }}">Carrinho ({{ quantidade_carrinho }})</a>
+        <a href="{{ url_for('inicio') }}#contato">Contato</a>
+
+        {% if usuario_nome %}
+            <span>Olá, {{ usuario_nome }}</span>
+            <a href="{{ url_for('logout') }}">Sair</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Entrar</a>
+            <a href="{{ url_for('cadastro') }}">Criar conta</a>
+        {% endif %}
+    </nav>
+</header>
+
     <main class="detalhe-produto">
 
         <div class="detalhe-info">
 
-            <h1>Meu Pedido</h1>
+            <h1>Meu Carrinho</h1>
 
             {% if itens %}
 
                 {% for item in itens %}
 
-                    <p>
-                        {{ item.nome }}<br>
-                        Quantidade: {{ item.quantidade }}<br>
-                        Preço unitário: R$ {{ "%.2f"|format(item.preco)|replace(".", ",") }}<br>
-                        <strong>Subtotal: R$ {{ "%.2f"|format(item.subtotal)|replace(".", ",") }}</strong>
+                    <div class="item-carrinho">
 
-                        <br><br>
+                        <img src="{{ url_for('static', filename=item.imagem) }}"
+                            alt="{{ item.nome }}"
+                            class="imagem-carrinho">
 
-                        <a href="{{ url_for('diminuir', id=item.id) }}" class="botao botao-mini">
+                        <p>
+                            {{ item.nome }}<br>
+                            Quantidade: {{ item.quantidade }}<br>
+                            Preço unitário: R$ {{ "%.2f"|format(item.preco)|replace(".", ",") }}<br>
+                            <strong>Subtotal: R$ {{ "%.2f"|format(item.subtotal)|replace(".", ",") }}</strong>
+
+                            <br><br>
+
+                            <a href="{{ url_for('diminuir', id=item.id) }}" class="botao botao-mini">
                             −
-                        </a>
+                            </a>
 
-                        <a href="{{ url_for('aumentar', id=item.id) }}" class="botao botao-mini">
+                            <a href="{{ url_for('aumentar', id=item.id) }}" class="botao botao-mini">
                             +
-                        </a>
+                            </a>
 
-                        <a href="{{ url_for('remover', id=item.id) }}" class="botao">
-                            Remover
-                        </a>
-                    </p>
+                            <a href="{{ url_for('remover', id=item.id) }}" class="botao">
+                                Remover
+                            </a>
+                        </p>
+                    </div>
 
                     <hr>
 
@@ -62,6 +88,11 @@
             <a href="{{ url_for('esvaziar') }}" class="botao">
                 Esvaziar carrinho
             </a>
+
+            <a href="{{ url_for('finalizar_pedido') }}" class="botao">
+                Finalizar pedido
+            </a>
+
             {% endif %}
 
             <a href="{{ url_for('inicio') }}" class="botao">

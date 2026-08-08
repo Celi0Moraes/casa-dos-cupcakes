@@ -1,4 +1,6 @@
-from flask import Flask, render_template, abort, session, redirect, url_for
+from flask import Flask, render_template, abort, session, redirect, url_for, request
+import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "casa-dos-cupcakes-chave-desenvolvimento"
@@ -41,6 +43,34 @@ cupcakes = [
     },
 ]
 
+def inicializar_banco():
+    conexao = sqlite3.connect("usuarios.db")
+
+    conexao.execute("""
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            senha TEXT NOT NULL
+        )
+    """)
+
+    conexao.commit()
+    conexao.close()
+
+
+inicializar_banco()
+
+@app.context_processor
+def contador_carrinho():
+    carrinho = session.get("carrinho", {})
+    quantidade_carrinho = sum(carrinho.values())
+
+    return {
+    "quantidade_carrinho": quantidade_carrinho,
+    "usuario_nome": session.get("usuario_nome")
+}
+
 @app.route("/")
 def inicio():
 
@@ -48,6 +78,83 @@ def inicio():
         "index.html",
         cupcakes=cupcakes
     )
+
+@app.route("/cadastro", methods=["GET", "POST"])
+def cadastro():
+
+    if "usuario_id" in session:
+        return redirect(url_for("inicio"))
+
+
+    if request.method == "POST":
+        nome = request.form["nome"]
+        email = request.form["email"]
+        senha = request.form["senha"]
+
+        senha_hash = generate_password_hash(senha)
+
+        conexao = sqlite3.connect("usuarios.db")
+
+        try:
+            conexao.execute(
+                "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)",
+                (nome, email, senha_hash)
+            )
+
+            conexao.commit()
+
+        except sqlite3.IntegrityError:
+            conexao.close()
+            return render_template(
+                "cadastro.html",
+                erro="Este e-mail já está cadastrado."
+)
+
+        conexao.close()
+
+        return redirect(url_for("inicio"))
+
+    return render_template("cadastro.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if "usuario_id" in session:
+        return redirect(url_for("inicio"))
+
+    if request.method == "POST":
+        email = request.form["email"]
+        senha = request.form["senha"]
+
+        conexao = sqlite3.connect("usuarios.db")
+        conexao.row_factory = sqlite3.Row
+
+        usuario = conexao.execute(
+            "SELECT * FROM usuarios WHERE email = ?",
+            (email,)
+        ).fetchone()
+
+        conexao.close()
+
+        if usuario and check_password_hash(usuario["senha"], senha):
+            session["usuario_id"] = usuario["id"]
+            session["usuario_nome"] = usuario["nome"]
+
+            return redirect(url_for("inicio"))
+
+        return render_template(
+            "login.html",
+            erro="E-mail ou senha incorretos."
+)
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("usuario_id", None)
+    session.pop("usuario_nome", None)
+
+    return redirect(url_for("inicio"))
 
 @app.route("/adicionar/<int:id>")
 def adicionar(id):
@@ -68,6 +175,25 @@ def adicionar(id):
 
     return redirect(url_for("detalhes", id=id))
 
+@app.route("/adicionar-rapido/<int:id>")
+def adicionar_rapido(id):
+
+    carrinho = session.get("carrinho", {})
+
+    if not isinstance(carrinho, dict):
+        carrinho = {}
+
+    id_str = str(id)
+
+    if id_str in carrinho:
+        carrinho[id_str] += 1
+    else:
+        carrinho[id_str] = 1
+
+    session["carrinho"] = carrinho
+
+    return redirect(url_for("inicio") + "#cupcakes")
+
 @app.route("/cupcake/<int:id>")
 def detalhes(id):
 
@@ -84,7 +210,7 @@ def detalhes(id):
         cupcake=cupcake
     )
 
-@app.route("/pedidos")
+@app.route("/carrinho")
 def pedidos():
 
     carrinho = session.get("carrinho", {})
@@ -108,6 +234,24 @@ def pedidos():
         "pedidos.html",
         itens=itens,
         total=total
+)
+
+@app.route("/finalizar-pedido")
+def finalizar_pedido():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    carrinho = session.get("carrinho", {})
+
+    if not carrinho:
+        return redirect(url_for("pedidos"))
+
+    session["carrinho"] = {}
+
+    return render_template(
+        "pedido_finalizado.html",
+        usuario_nome=session.get("usuario_nome")
 )
 
 @app.route("/aumentar/<int:id>")

@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ cupcake.nome }} - Casa dos Cupcakes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Pedido finalizado</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -28,30 +30,25 @@
         </nav>
     </header>
 
-    <main class="detalhe-produto">
+    <main class="pagina-formulario">
 
-        <img src="{{ url_for('static', filename=cupcake.imagem) }}"
-             alt="{{ cupcake.nome }}">
+        <section class="formulario-card">
 
-        <div class="detalhe-info">
+            <h1>Pedido finalizado com sucesso! 🎉</h1>
 
-            <h1>{{ cupcake.nome }}</h1>
+            <p>
+                Obrigado pela compra, {{ usuario_nome }}.
+            </p>
 
-            <p>{{ cupcake.descricao }}</p>
-
-            <span class="preco">
-                R$ {{ "%.2f"|format(cupcake.preco)|replace(".", ",") }}
-            </span>
-
-            <a href="{{ url_for('adicionar', id=cupcake.id) }}" class="botao">
-                Adicionar ao carrinho
-            </a>
+            <p>
+                Seu pedido foi recebido pela Casa dos Cupcakes.
+            </p>
 
             <a href="{{ url_for('inicio') }}" class="botao">
                 Voltar para a loja
             </a>
 
-        </div>
+        </section>
 
     </main>
 

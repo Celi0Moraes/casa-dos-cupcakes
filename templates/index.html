@@ -15,8 +15,16 @@
         <nav>
             <a href="/">Início</a>
             <a href="#cupcakes">Cupcakes</a>
-            <a href="{{ url_for('pedidos') }}">Pedidos</a>
+            <a href="{{ url_for('pedidos') }}">Carrinho ({{ quantidade_carrinho }})</a>
             <a href="#">Contato</a>
+
+            {% if usuario_nome %}
+                <span>Olá, {{ usuario_nome }}</span>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Entrar</a>
+                <a href="{{ url_for('cadastro') }}">Criar conta</a>
+            {% endif %}
         </nav>
     </header>
 
@@ -54,7 +62,11 @@
             </span>
 
             <a href="{{ url_for('detalhes', id=cupcake.id) }}" class="botao-produto">
-                Ver detalhes
+                Detalhes
+            </a>
+
+            <a href="{{ url_for('adicionar_rapido', id=cupcake.id) }}" class="botao-produto">
+                + Carrinho
             </a>
 
         </article>
