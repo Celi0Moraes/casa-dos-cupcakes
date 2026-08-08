@@ -79,6 +79,13 @@ def inicio():
         cupcakes=cupcakes
     )
 
+@app.route("/contato")
+def contato():
+    return render_template(
+        "contato.html",
+        usuario_nome=session.get("usuario_nome")
+    )
+
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
 
@@ -235,6 +242,76 @@ def pedidos():
         itens=itens,
         total=total
 )
+
+@app.route("/entrega", methods=["GET", "POST"])
+def entrega():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    carrinho = session.get("carrinho", {})
+
+    if not carrinho:
+        return redirect(url_for("pedidos"))
+
+    if request.method == "POST":
+        return redirect(url_for("pagamento"))
+
+    return render_template(
+        "entrega.html",
+        usuario_nome=session.get("usuario_nome")
+    )
+
+@app.route("/pagamento")
+def pagamento():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    carrinho = session.get("carrinho", {})
+
+    if not carrinho:
+        return redirect(url_for("pedidos"))
+
+    return render_template(
+        "pagamento.html",
+        usuario_nome=session.get("usuario_nome")
+    )
+
+@app.route("/pagamento/pix")
+def pagamento_pix():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    carrinho = session.get("carrinho", {})
+
+    if not carrinho:
+        return redirect(url_for("pedidos"))
+
+    return render_template(
+        "pagamento_pix.html",
+        usuario_nome=session.get("usuario_nome")
+)
+
+@app.route("/pagamento/cartao", methods=["GET", "POST"])
+def pagamento_cartao():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    carrinho = session.get("carrinho", {})
+
+    if not carrinho:
+        return redirect(url_for("pedidos"))
+
+    if request.method == "POST":
+        return redirect(url_for("finalizar_pedido"))
+
+    return render_template(
+        "pagamento_cartao.html",
+        usuario_nome=session.get("usuario_nome")
+    )
 
 @app.route("/finalizar-pedido")
 def finalizar_pedido():

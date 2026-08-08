@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contato - Casa dos Cupcakes</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header>
+        <h1>Casa dos Cupcakes</h1>
+
+        <nav>
+            <a href="{{ url_for('inicio') }}">Início</a>
+            <a href="{{ url_for('inicio') }}#cupcakes">Cupcakes</a>
+            <a href="{{ url_for('pedidos') }}">
+                Carrinho ({{ quantidade_carrinho }})
+            </a>
+            <a href="{{ url_for('contato') }}">Contato</a>
+
+            {% if usuario_nome %}
+                <span>Olá, {{ usuario_nome }}</span>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Entrar</a>
+                <a href="{{ url_for('cadastro') }}">Criar conta</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="pagina-formulario">
+
+        <section class="formulario-card">
+
+            <h1>Entre em contato</h1>
+
+            <p>
+                Precisa de ajuda? Entre em contato conosco.
+            </p>
+
+            <br>
+
+            <p>
+                <strong>Endereço:</strong> Rua Teste, nº 1
+            </p>
+
+            <p>
+                <strong>Telefone:</strong> (00) 1234-5678
+            </p>
+
+            <p>
+                <strong>E-mail:</strong> contato@casadoscupcakes.com
+            </p>
+
+            <p>
+                <strong>Horário de atendimento:</strong>
+                Segunda a sexta, das 9h às 18h
+            </p>
+
+            <br>
+
+            <p>
+                <small>
+                    Informações demonstrativas para fins acadêmicos.
+                </small>
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

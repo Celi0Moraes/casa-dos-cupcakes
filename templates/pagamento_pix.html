@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pagamento via PIX</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Casa dos Cupcakes</h1>
+
+        <nav>
+            <a href="{{ url_for('inicio') }}">Início</a>
+            <a href="{{ url_for('inicio') }}#cupcakes">Cupcakes</a>
+            <a href="{{ url_for('pedidos') }}">Carrinho ({{ quantidade_carrinho }})</a>
+            <a href="{{ url_for('contato') }}">Contato</a>
+
+            {% if usuario_nome %}
+                <span>Olá, {{ usuario_nome }}</span>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Entrar</a>
+                <a href="{{ url_for('cadastro') }}">Criar conta</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="pagina-formulario">
+
+        <section class="formulario-card">
+
+            <h1>Pagamento via PIX</h1>
+
+            <p>
+                Copie o código PIX abaixo para realizar o pagamento.
+            </p>
+
+            <p><strong>Código PIX de demonstração:</strong></p>
+
+            <input
+                type="text"
+                id="codigo-pix"
+                value="PIX-CASA-DOS-CUPCAKES-123456"
+                readonly
+            >
+
+            <br><br>
+
+            <button
+                type="button"
+                class="botao"
+                onclick="copiarPix()">
+                Copiar código PIX
+            </button>
+
+            <p>
+                <small>
+                    Pagamento demonstrativo para fins acadêmicos.
+                    Nenhuma transação real será realizada.
+                </small>
+            </p>
+
+        </section>
+
+    </main>
+
+    <script>
+        function copiarPix() {
+            const codigoPix = document.getElementById("codigo-pix");
+
+            navigator.clipboard.writeText(codigoPix.value).then(function() {
+                window.location.href = "{{ url_for('finalizar_pedido') }}";
+            });
+        }
+    </script>
+
+</body>
+</html>

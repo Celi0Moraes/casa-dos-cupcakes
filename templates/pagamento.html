@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Pedido finalizado</title>
+    <title>Pagamento</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -34,18 +34,16 @@
 
         <section class="formulario-card">
 
-            <h1>Pedido finalizado com sucesso!</h1>
+            <h1>Forma de pagamento</h1>
 
-            <p>
-                Obrigado pela compra, {{ usuario_nome }}.
-            </p>
+            <p>Escolha como deseja realizar o pagamento.</p>
 
-            <p>
-                Seu pedido foi recebido pela Casa dos Cupcakes.
-            </p>
+            <a href="{{ url_for('pagamento_pix') }}" class="botao">
+                Pagar com PIX
+            </a>
 
-            <a href="{{ url_for('inicio') }}" class="botao">
-                Voltar para a loja
+            <a href="{{ url_for('pagamento_cartao') }}" class="botao">
+                Pagar com cartão
             </a>
 
         </section>
@@ -53,5 +51,4 @@
     </main>
 
 </body>
-
 </html>
