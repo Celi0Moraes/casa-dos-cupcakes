@@ -78,3 +78,17 @@ http://127.0.0.1:5000
 ---
 
 Projeto desenvolvido para fins acadêmicos.
+
+## Hospedagem
+
+A aplicação está publicada online utilizando a plataforma Render.
+
+- Plataforma: Render
+- Tipo de serviço: Web Service
+- Runtime: Python 3
+- Servidor de aplicação: Gunicorn
+- Branch de publicação: main
+
+### Acesso à aplicação
+
+https://casa-dos-cupcakes.onrender.com
