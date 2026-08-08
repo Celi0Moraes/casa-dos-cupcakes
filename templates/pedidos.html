@@ -22,9 +22,27 @@
                 {% for item in itens %}
 
                     <p>
-                        {{ item.nome }} -
-                        <strong>{{ item.preco }}</strong>
+                        {{ item.nome }}<br>
+                        Quantidade: {{ item.quantidade }}<br>
+                        Preço unitário: R$ {{ "%.2f"|format(item.preco)|replace(".", ",") }}<br>
+                        <strong>Subtotal: R$ {{ "%.2f"|format(item.subtotal)|replace(".", ",") }}</strong>
+
+                        <br><br>
+
+                        <a href="{{ url_for('diminuir', id=item.id) }}" class="botao botao-mini">
+                            −
+                        </a>
+
+                        <a href="{{ url_for('aumentar', id=item.id) }}" class="botao botao-mini">
+                            +
+                        </a>
+
+                        <a href="{{ url_for('remover', id=item.id) }}" class="botao">
+                            Remover
+                        </a>
                     </p>
+
+                    <hr>
 
                 {% endfor %}
 
@@ -34,7 +52,17 @@
 
             {% endif %}
 
+            <div class="total-pedido">
+                <h2>Total do pedido: R$ {{ "%.2f"|format(total)|replace(".", ",") }}</h2>
+            </div>
+
             <br>
+
+            {% if itens %}
+            <a href="{{ url_for('esvaziar') }}" class="botao">
+                Esvaziar carrinho
+            </a>
+            {% endif %}
 
             <a href="{{ url_for('inicio') }}" class="botao">
                 Continuar comprando

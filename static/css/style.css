@@ -41,6 +41,8 @@ nav a {
     color: white;
     text-decoration: none;
     border-radius: 8px;
+
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .destaques {
@@ -90,6 +92,7 @@ footer {
 .botao:hover,
 .botao-produto:hover {
     background-color: #b52a70;
+    transform: translateY(-2px);
 }
 
 nav a:hover {
@@ -143,4 +146,25 @@ nav a:hover {
 .detalhe-info p {
     font-size: 18px;
     line-height: 1.5;
+}
+
+.total-pedido {
+    margin-top: 25px;
+    padding: 20px;
+    background: #fff5fa;
+    border-left: 6px solid #d63384;
+    border-radius: 10px;
+}
+
+.botao-mini {
+    padding: 8px 14px;
+    margin-right: 6px;
+    min-width: 45px;
+    text-align: center;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
 }

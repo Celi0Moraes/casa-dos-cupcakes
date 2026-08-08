@@ -20,7 +20,9 @@
 
             <p>{{ cupcake.descricao }}</p>
 
-            <span class="preco">{{ cupcake.preco }}</span>
+            <span class="preco">
+                R$ {{ "%.2f"|format(cupcake.preco)|replace(".", ",") }}
+            </span>
 
             <a href="{{ url_for('adicionar', id=cupcake.id) }}" class="botao">
                 Adicionar ao pedido
